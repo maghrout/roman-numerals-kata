@@ -21,11 +21,19 @@ namespace RomanNumeralsKata
             string result = numberToRomanNumeralsMapper.AsRomanNumerals();
             Assert.Equal("II", result);
         }
+
+        [Fact]
+        public void ParsesNumber3Correctly()
+        {
+            NumberToRomanNumeralsMapper numberToRomanNumeralsMapper = NumberToRomanNumeralsMapper.FromInteger(3);
+            string result = numberToRomanNumeralsMapper.AsRomanNumerals();
+            Assert.Equal("III", result);
+        }
     }
 
     public class NumberToRomanNumeralsMapper
     {
-        private string _romanNumeralString;
+        private readonly string _romanNumeralString;
 
         private NumberToRomanNumeralsMapper(string romanNumeralString)
         {
@@ -37,7 +45,12 @@ namespace RomanNumeralsKata
             var romanNumeralString = "";
             while (input != 0)
             {
-                if (input == 2)
+                if (input == 3)
+                {
+                    romanNumeralString += "III";
+                    input -= input;
+                }
+                else if (input == 2)
                 {
                     romanNumeralString += "II";
                     input -= input;
