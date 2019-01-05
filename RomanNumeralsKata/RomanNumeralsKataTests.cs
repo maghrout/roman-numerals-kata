@@ -13,6 +13,7 @@ namespace RomanNumeralsKata
         [InlineData(2, "II")]
         [InlineData(3, "III")]
         [InlineData(4, "IV")]
+        [InlineData(5, "V")]
         public void WhenANumberIsPassedIntoNumberToRomanNumeralsMapper_TheCorrectRomanNumeralsAreReturned(int numberInput, string expectedRomanNumerals)
         {
             NumberToRomanNumeralsMapper numberToRomanNumeralsMapper = NumberToRomanNumeralsMapper.FromInteger(numberInput);
@@ -25,6 +26,7 @@ namespace RomanNumeralsKata
     {
         private static readonly List<RomanNumeral> RomanNumerals = new List<RomanNumeral>
         {
+            new RomanNumeral{Symbol = "V", Value = 5},
             new RomanNumeral{Symbol = "IV", Value = 4},
             new RomanNumeral{Symbol = "I", Value = 1},
         };
