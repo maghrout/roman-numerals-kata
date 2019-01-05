@@ -4,6 +4,7 @@ namespace RomanNumeralsKata
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class RomanNumeralsKataTests
     {
@@ -11,6 +12,7 @@ namespace RomanNumeralsKata
         [InlineData(1, "I")]
         [InlineData(2, "II")]
         [InlineData(3, "III")]
+        [InlineData(4, "IV")]
         public void WhenANumberIsPassedIntoNumberToRomanNumeralsMapper_TheCorrectRomanNumeralsAreReturned(int numberInput, string expectedRomanNumerals)
         {
             NumberToRomanNumeralsMapper numberToRomanNumeralsMapper = NumberToRomanNumeralsMapper.FromInteger(numberInput);
@@ -23,10 +25,10 @@ namespace RomanNumeralsKata
     {
         private static readonly List<RomanNumeral> RomanNumerals = new List<RomanNumeral>
         {
+            new RomanNumeral{Symbol = "IV", Value = 4},
             new RomanNumeral{Symbol = "I", Value = 1},
-            new RomanNumeral{Symbol = "II",Value = 2},
-            new RomanNumeral{Symbol = "III",Value = 3},
         };
+
         private readonly string _romanNumeralString;
 
         private NumberToRomanNumeralsMapper(string romanNumeralString)
@@ -39,13 +41,14 @@ namespace RomanNumeralsKata
             var romanNumeralString = "";
             while (input != 0)
             {
-                foreach (var romanNumeral in RomanNumerals)
+                string value = "";
+                if (RomanNumerals.Any(x => x.TryModulus(input, out value, out input)))
                 {
-                    if (input == romanNumeral.Value)
-                    {
-                        romanNumeralString += romanNumeral.Symbol;
-                        input -= romanNumeral.Value;
-                    }
+                    romanNumeralString += value;
+                }
+                else
+                {
+                    throw new ArgumentException("Not a valid number");
                 }
             }
 
@@ -62,5 +65,21 @@ namespace RomanNumeralsKata
     {
         public int Value { get; set; }
         public string Symbol { get; set; }
+
+        public bool TryModulus(int input, out string romanNumeral, out int remainder)
+        {
+            if (input % Value == 0)
+            {
+                romanNumeral = Symbol;
+                remainder = input - Value;
+                return true;
+            }
+            else
+            {
+                romanNumeral = "";
+                remainder = input;
+                return false;
+            }
+        }
     }
 }
