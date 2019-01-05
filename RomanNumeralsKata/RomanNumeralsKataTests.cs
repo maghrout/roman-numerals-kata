@@ -6,28 +6,15 @@ namespace RomanNumeralsKata
 
     public class RomanNumeralsKataTests
     {
-        [Fact]
-        public void ParsesNumber1Correctly()
+        [Theory]
+        [InlineData(1, "I")]
+        [InlineData(2, "II")]
+        [InlineData(3, "III")]
+        public void WhenANumberIsPassedIntoNumberToRomanNumeralsMapper_TheCorrectRomanNumeralsAreReturned(int numberInput, string expectedRomanNumerals)
         {
-            NumberToRomanNumeralsMapper numberToRomanNumeralsMapper = NumberToRomanNumeralsMapper.FromInteger(1);
+            NumberToRomanNumeralsMapper numberToRomanNumeralsMapper = NumberToRomanNumeralsMapper.FromInteger(numberInput);
             string result = numberToRomanNumeralsMapper.AsRomanNumerals();
-            Assert.Equal("I", result);
-        }
-
-        [Fact]
-        public void ParsesNumber2Correctly()
-        {
-            NumberToRomanNumeralsMapper numberToRomanNumeralsMapper = NumberToRomanNumeralsMapper.FromInteger(2);
-            string result = numberToRomanNumeralsMapper.AsRomanNumerals();
-            Assert.Equal("II", result);
-        }
-
-        [Fact]
-        public void ParsesNumber3Correctly()
-        {
-            NumberToRomanNumeralsMapper numberToRomanNumeralsMapper = NumberToRomanNumeralsMapper.FromInteger(3);
-            string result = numberToRomanNumeralsMapper.AsRomanNumerals();
-            Assert.Equal("III", result);
+            Assert.Equal(expectedRomanNumerals, result);
         }
     }
 
