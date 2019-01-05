@@ -12,4 +12,17 @@ namespace RomanNumeralsKata
             Assert.Equal("I", result);
         }
     }
+
+    public class NumberToRomanNumeralsMapper
+    {
+        public static NumberToRomanNumeralsMapper FromInteger(int input)
+        {
+            return new NumberToRomanNumeralsMapper();
+        }
+
+        public string AsRomanNumerals()
+        {
+            return "I";
+        }
+    }
 }
