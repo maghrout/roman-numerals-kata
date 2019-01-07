@@ -9,11 +9,29 @@ namespace RomanNumeralsKata
     public class RomanNumeralsKataTests
     {
         [Theory]
-        [InlineData(1, "I")]
-        [InlineData(2, "II")]
         [InlineData(3, "III")]
         [InlineData(4, "IV")]
         [InlineData(5, "V")]
+        [InlineData(8, "VIII")]
+        [InlineData(9, "IX")]
+        [InlineData(10, "X")]
+        [InlineData(39, "XXXIX")]
+        [InlineData(40, "XL")]
+        [InlineData(49, "XLIX")]
+        [InlineData(50, "L")]
+        [InlineData(89, "LXXXIX")]
+        [InlineData(90, "XC")]
+        [InlineData(99, "XCIX")]
+        [InlineData(100, "C")]
+        [InlineData(399, "CCCXCIX")]
+        [InlineData(400, "CD")]
+        [InlineData(499, "CDXCIX")]
+        [InlineData(500, "D")]
+        [InlineData(899, "DCCCXCIX")]
+        [InlineData(900, "CM")]
+        [InlineData(999, "CMXCIX")]
+        [InlineData(1000, "M")]
+        [InlineData(3999, "MMMCMXCIX")]
         public void WhenANumberIsPassedIntoNumberToRomanNumeralsMapper_TheCorrectRomanNumeralsAreReturned(int numberInput, string expectedRomanNumerals)
         {
             NumberToRomanNumeralsMapper numberToRomanNumeralsMapper = NumberToRomanNumeralsMapper.FromInteger(numberInput);
@@ -26,9 +44,19 @@ namespace RomanNumeralsKata
     {
         private static readonly List<RomanNumeral> RomanNumerals = new List<RomanNumeral>
         {
-            new RomanNumeral{Symbol = "V", Value = 5},
-            new RomanNumeral{Symbol = "IV", Value = 4},
-            new RomanNumeral{Symbol = "I", Value = 1},
+            new RomanNumeral("M", 1000),
+            new RomanNumeral("CM", 900),
+            new RomanNumeral("D", 500),
+            new RomanNumeral("CD", 400),
+            new RomanNumeral("C", 100),
+            new RomanNumeral("XC", 90),
+            new RomanNumeral("L", 50),
+            new RomanNumeral("XL", 40),
+            new RomanNumeral("X", 10),
+            new RomanNumeral("IX", 9),
+            new RomanNumeral("V", 5),
+            new RomanNumeral("IV", 4),
+            new RomanNumeral("I", 1),
         };
 
         private readonly string _romanNumeralString;
@@ -44,7 +72,7 @@ namespace RomanNumeralsKata
             while (input != 0)
             {
                 string value = "";
-                if (RomanNumerals.Any(x => x.TryModulus(input, out value, out input)))
+                if (RomanNumerals.Any(x => x.TryDivide(input, out value, out input)))
                 {
                     romanNumeralString += value;
                 }
@@ -65,15 +93,21 @@ namespace RomanNumeralsKata
 
     public class RomanNumeral
     {
-        public int Value { get; set; }
-        public string Symbol { get; set; }
+        private readonly string _symbol;
+        private readonly int _value;
 
-        public bool TryModulus(int input, out string romanNumeral, out int remainder)
+        public RomanNumeral(string symbol, int value)
         {
-            if (input % Value == 0)
+            _symbol = symbol;
+            _value = value;
+        }
+
+        public bool TryDivide(int input, out string romanNumeral, out int remainder)
+        {
+            if (input / _value >= 1)
             {
-                romanNumeral = Symbol;
-                remainder = input - Value;
+                romanNumeral = _symbol;
+                remainder = input - _value;
                 return true;
             }
             else
